@@ -1,1 +1,7 @@
-# deployment-on-kubernetes
+# Reflection on Hello Minikube
+1.  Compare the application logs before and after you exposed it as a service. Try to open the app several times while the proxy into the service is running. What do you see in the logs? Does the number of logs increase each time you open the app?
+- Sebelum aplikasi diekspos jadi sebuah service, log cuma menunjukkan kalo server HTTP dan UDP udah nyala di port 8080 dan 8081. Setelah aplikasi diekspos jadi layanan, kita bisa nyambung dan komunikasi sama server dari luar klaster Kubernetes. Kalo kita buka aplikasi pake proxy ke service yang lagi jalan beberapa kali, lognya bakal makin besar. Hal ini karena server punya fitur logging yang catet setiap permintaan HTTP yang masuk sama waktu kapan masuknya. Tiap kali kita buka aplikasi, permintaan HTTP dikirim ke server, yang bikin log catat pesan lagi.
+
+2. Notice that there are two versions of `kubectl get` invocation during this tutorial section. The first does not have any option, while the latter has `-n` option with value set to `kube-system`. What is the purpose of the `-n` option and why did the output not list the pods/services that you explicitly created?
+- Opsi `-n` pada perintah `kubectl get` digunakan untuk menunjukkan namespace yang ingin ditampilkan. Namespace adalah cara untuk mengelompokkan objek Kubernetes ke dalam unit yang terisolasi. Namespace awal adalah `default`, tetapi namespace bisa dibuat khusus sesuai kebutuhan.
+- Opsi `-n` dengan nilai yang diatur ke `kube-system` mengambil semua pod dan layanan dalam namespace `kube-system`. Sebelumnya, layanan dan pod berada di namespace yang berbeda, `default`. itulah alasan mengapa layanan/pod yang telah dibuat sebelumnya tidak terlihat dalam output.
